@@ -28,7 +28,7 @@
 
 ## 관련 링크
 - S3 버킷 웹사이트 엔드포인트: http://hanghae-fe3-16-sh.s3-website.ap-northeast-2.amazonaws.com/
-- CloudFrount 배포 도메인 이름: https://d7r50d538zjrn.cloudfront.net/
+- CloudFront 배포 도메인 이름: https://d7r50d538zjrn.cloudfront.net/
 
 ## 주요 개념
 ### GitHub Actions과 CI/CD 도구
@@ -49,3 +49,25 @@ CDN의 엣지 서버에 캐시된 콘텐츠를 삭제하거나 갱신합니다. 
 ### Repository Secret과 환경변수
 - Repository Secret: AWS 자격 증명, S3 버킷 이름, CloudFront 배포 ID 등 민감한 정보를 안전하게 저장하고 Actions 워크플로우에서 사용할 수 있는 기능입니다.
 - 환경변수: 워크플로우 실행 중 특정 값을 참조할 수 있게 합니다.
+
+## CDN과 성능최적화
+
+### 네트워크 탭 비교
+
+1. S3 버킷 웹사이트 (CloudFront 미사용)
+
+![s3](https://github.com/user-attachments/assets/4f3d2449-0692-401e-86d2-888ae08a2edd)
+2. CloudFront 사용
+
+![cloudFront](https://github.com/user-attachments/assets/dd302da3-4a83-4323-befe-b7a2abf98d14)
+
+| 항목     | CDN 미사용 | CDN 사용       |
+|----------|-----:|:----------:|
+| document Size   |  11.8 kB  | 3.0 kB     |
+| document Time   |   40 ms | 10 ms   |
+| logo Size   |   1.7 kB | 1.0 kB |
+| logo Time   |   46 ms | 11 ms |
+| stylesheet Size   |   9.0 kB | 2.9 kB |
+| stylesheet Time   |   71 ms | 10 ms |
+
+CDN을 사용했을때 Size와 Time 모두 확연히 줄어듦을 볼 수 있습니다. CDN을 사용했을 때 가장 가까운 서버에서 콘텐츠를 전달받는 거리상 이점 뿐만 아니라 압축을 통해 전송되는 데이터 양을 최소화 하여 로딩 속도를 개선하는 것을 볼 수 있습니다.
